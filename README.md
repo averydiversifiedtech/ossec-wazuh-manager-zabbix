@@ -7,7 +7,9 @@ So far the template has a discovery routine that is not yet scripted but as of t
 
 Next up will be getting discovery of hosts and prototypes are already in place to track status of agents (active/disconnected/never connected) and alert accordingly.  At the moment the discovery script is written but we're troubleshooting the discovery and item creation.  Use at your own risk.
 
-The other config item needed after placing the required files on the OSSEC/Wazuh Manager(Server) and importing the template into the Zabbix server (and apply it to your OSSEC/Wazuh host).  Create a value mapping with the following info:
+The other config item needed after placing the required files on the OSSEC/Wazuh Manager(Server) and importing the template into the Zabbix server (and apply it to your OSSEC/Wazuh host).  
+
+The template should create a value mapping with the following info:
 
 Name: OSSEC-Wazuh Agent Status
 
