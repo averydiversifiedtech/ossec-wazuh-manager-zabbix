@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.0</version>
-    <date>2019-10-24T08:10:34Z</date>
+    <date>2019-10-24T16:41:05Z</date>
     <groups>
         <group>
             <name>Templates/Applications</name>
@@ -121,7 +121,7 @@
                             <type>0</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>ossecwazuh.manager[get,{#NAME},status]</key>
+                            <key>ossecwazuh.agents[{#NAME}]</key>
                             <delay>30s</delay>
                             <history>90d</history>
                             <trends>0</trends>
@@ -181,9 +181,9 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{OSSEC-Wazuh:ossecwazuh.manager[get,{#NAME},status].last()}=1</expression>
+                            <expression>{OSSEC-Wazuh:ossecwazuh.agents[{#NAME}].last()}=1</expression>
                             <recovery_mode>1</recovery_mode>
-                            <recovery_expression>{OSSEC-Wazuh:ossecwazuh.manager[get,{#NAME},status].last()}=0</recovery_expression>
+                            <recovery_expression>{OSSEC-Wazuh:ossecwazuh.agents[{#NAME}].last()}=0</recovery_expression>
                             <name>OSSEC-Wazuh Agent {#NAME} Disconnected</name>
                             <correlation_mode>0</correlation_mode>
                             <correlation_tag/>
@@ -197,9 +197,9 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{OSSEC-Wazuh:ossecwazuh.manager[get,{#NAME},status].last()}=2</expression>
+                            <expression>{OSSEC-Wazuh:ossecwazuh.agents[{#NAME}].last()}=2</expression>
                             <recovery_mode>1</recovery_mode>
-                            <recovery_expression>{OSSEC-Wazuh:ossecwazuh.manager[get,{#NAME},status].last()}=0</recovery_expression>
+                            <recovery_expression>{OSSEC-Wazuh:ossecwazuh.agents[{#NAME}].last()}=0</recovery_expression>
                             <name>OSSEC-Wazuh Agent {#NAME} never connected</name>
                             <correlation_mode>0</correlation_mode>
                             <correlation_tag/>
