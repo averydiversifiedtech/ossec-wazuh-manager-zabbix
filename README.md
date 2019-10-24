@@ -5,7 +5,7 @@ Just getting started with this template.  Import the xml template into zabbix.  
 
 So far the template has a discovery routine that is not yet scripted but as of the initial upload we do have a simple up or down trigger on the Manager.  If port 1514 udp is not being listened on the server it will trigger a disaster alert.
 
-Next up will be getting discovery of hosts and prototypes are already in place to track status of agents (active/disconnected/never connected) and alert accordingly.  At the moment the discovery script is written but the connection to the discovery triggers isn't quite done.
+Next up will be getting discovery of hosts and prototypes are already in place to track status of agents (active/disconnected/never connected) and alert accordingly.  At the moment the discovery script is written but we're troubleshooting the discovery and item creation.  Use at your own risk.
 
 The other config item needed after placing the required files on the OSSEC/Wazuh Manager(Server) and importing the template into the Zabbix server (and apply it to your OSSEC/Wazuh host).  Create a value mapping with the following info:
 
@@ -16,8 +16,6 @@ Active = 0
 Disconnected = 1
 
 Never connected = 2
-
-127.0.0.1 = 3
 
 (If it's the server we assume it's active - currently the discovery script parses one field off for the server - grabbing the ip.)
 
