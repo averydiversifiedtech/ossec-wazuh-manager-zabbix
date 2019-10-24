@@ -10,6 +10,7 @@ Next up will be getting discovery of hosts and prototypes are already in place t
 The other config item needed after placing the required files on the OSSEC/Wazuh Manager(Server) and importing the template into the Zabbix server (and apply it to your OSSEC/Wazuh host).  Create a value mapping with the following info:
 
 Name: OSSEC-Wazuh Agent Status
+
 Active = 0
 
 Disconnected = 1
