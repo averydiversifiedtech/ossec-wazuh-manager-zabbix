@@ -11,7 +11,11 @@ The other config item needed after placing the required files on the OSSEC/Wazuh
 
 Name: OSSEC-Wazuh Agent Status
 Active = 0
+
 Disconnected = 1
+
 Never connected = 2
+
+(Value mapping is in Administration/config and then select Value Mapping from the drop down on the right hand side of the screen (as of verison 4.0))
 
 
