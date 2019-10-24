@@ -14,8 +14,8 @@ for (`sudo /var/ossec/bin/agent_control -l | grep ID`)
 $name =~ s/,\s*$//;
  
     print "\t{\n";
-    print "\t\t\"{#NAME}\":\"$name\",\n";
-    print "\t\t\"{#STATUS}\":\"$status\"\n";
+    print "\t\t\"{#NAME}\":\"$name\"\n";
+#    print "\t\t\"{#STATUS}\":\"$status\"\n";
     print "\t}\n";
 }
  
