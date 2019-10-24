@@ -17,6 +17,10 @@ Disconnected = 1
 
 Never connected = 2
 
+127.0.0.1 = 3
+
+(If it's the server we assume it's active - currently the discovery script parses one field off for the server - grabbing the ip.)
+
 (Value mapping is in Administration/config and then select Value Mapping from the drop down on the right hand side of the screen (as of verison 4.0))
 
 
