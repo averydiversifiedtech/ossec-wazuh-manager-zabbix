@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.0</version>
-    <date>2019-10-24T23:06:22Z</date>
+    <date>2019-10-25T14:50:36Z</date>
     <groups>
         <group>
             <name>Templates/Applications</name>
@@ -182,8 +182,8 @@
                     <trigger_prototypes>
                         <trigger_prototype>
                             <expression>{OSSEC-Wazuh:ossecwazuh.agents[{#NAME}].str(Disconnected)}=1</expression>
-                            <recovery_mode>1</recovery_mode>
-                            <recovery_expression>{OSSEC-Wazuh:ossecwazuh.agents[{#NAME}].str(Active)}=0</recovery_expression>
+                            <recovery_mode>0</recovery_mode>
+                            <recovery_expression/>
                             <name>OSSEC-Wazuh Agent {#NAME} Disconnected</name>
                             <correlation_mode>0</correlation_mode>
                             <correlation_tag/>
@@ -198,8 +198,8 @@
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{OSSEC-Wazuh:ossecwazuh.agents[{#NAME}].regexp(^Never.*)}=1</expression>
-                            <recovery_mode>1</recovery_mode>
-                            <recovery_expression>{OSSEC-Wazuh:ossecwazuh.agents[{#NAME}].str(Active)}=0</recovery_expression>
+                            <recovery_mode>0</recovery_mode>
+                            <recovery_expression/>
                             <name>OSSEC-Wazuh Agent {#NAME} never connected</name>
                             <correlation_mode>0</correlation_mode>
                             <correlation_tag/>
