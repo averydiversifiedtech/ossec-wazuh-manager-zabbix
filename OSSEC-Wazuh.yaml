@@ -1,0 +1,340 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: a571c0d144b14fd4a87a9d9b2aa9fcd6
+      name: Templates/Applications
+  templates:
+    - uuid: 143ff204dad44eb38d898fdf6d2e8dcb
+      template: OSSEC-Wazuh
+      name: OSSEC-Wazuh
+      description: 'Template for Monitoring OSSEC or Wazuh (fork of OSSEC) Intrusion Detection system.'
+      groups:
+        - name: Templates/Applications
+      items:
+        - uuid: d43f40ed2ebe4e0d8e40d63e22e2fd76
+          name: 'OSSEC Alerts'
+          type: TRAP
+          key: OSSEC
+          delay: '0'
+          history: 90d
+          value_type: TEXT
+          trends: '0'
+          tags:
+            - tag: Application
+              value: OSSEC-Wazuh
+        - uuid: 5a226c9c075145c19f17d07c84d4754d
+          name: 'Wazuh Critical Alerts Last 24h'
+          key: ossecwazuh.critical24h
+          delay: 5m
+          triggers:
+            - uuid: a32915d7e33c4b13aeee6d065ef3f285
+              expression: abs(last(/OSSEC-Wazuh/ossecwazuh.critical24h))>=1
+              name: 'Wazuh {ITEM.LASTVALUE} Critical alerts last 24h'
+              priority: HIGH
+              manual_close: 'YES'
+        - uuid: c3699c5e5da942d8ab974d11273156bd
+          name: 'Ossec-Wazuh Critical Alerts Trend 1h'
+          type: CALCULATED
+          key: ossecwazuh.critical24h.pct_over_trend_1h
+          delay: 5m
+          params: '100*( last(//ossecwazuh.critical24h) / max(avg(//ossecwazuh.critical24h,1h), 1) - 1 )'
+          triggers:
+            - uuid: 83a72df2a4454a0f97dd7738cd931b94
+              expression: 'min(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_1h,5m)>20 and nodata(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_1h,10m)=0'
+              name: 'Wazuh CRITICAL alerts increase {OSSEC-Wazuh:ossecwazuh.critical24h.pct_over_trend_1h.last()}% in 1 hour on {HOST.NAME}'
+              priority: AVERAGE
+              description: |
+                Latest: {OSSEC-Wazuh:ossecwazuh.critical24h.last()}
+                Baseline (1h avg): {OSSEC-Wazuh:ossecwazuh.critical24h.avg(1h)}
+              manual_close: 'YES'
+        - uuid: bb0b485edad44e1e89167c641aec8d05
+          name: 'Ossec-Wazuh Critical Alerts Trend 12h'
+          type: CALCULATED
+          key: ossecwazuh.critical24h.pct_over_trend_12h
+          delay: 10m
+          params: '100*( last(//ossecwazuh.critical24h) / max(avg(//ossecwazuh.critical24h,12h), 1) - 1 )'
+          triggers:
+            - uuid: 48ae4951154243ba8a7fa33b443cfdef
+              expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_12h,10m)>50
+                and nodata(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_12h,10m)=0
+              name: 'Wazuh CRITICAL alerts increase {OSSEC-Wazuh:ossecwazuh.critical24h.pct_over_trend_12h.last()}% in 12 hours on {HOST.NAME}'
+              priority: HIGH
+              description: |
+                Latest: {OSSEC-Wazuh:ossecwazuh.critical24h.last()}
+                Baseline (12h avg): {OSSEC-Wazuh:ossecwazuh.critical24h.avg(12h)}
+                Increase: {OSSEC-Wazuh:ossecwazuh.critical24h.pct_over_trend_12h.last()}%
+              manual_close: 'YES'
+        - uuid: 06c0835da5254a84920b071d9d086307
+          name: 'Ossec-Wazuh Critical Alerts Trend 24h'
+          type: CALCULATED
+          key: ossecwazuh.critical24h.pct_over_trend_24h
+          params: '100*( last(//ossecwazuh.critical24h) / max(avg(//ossecwazuh.critical24h,24h), 1) - 1 )'
+          triggers:
+            - uuid: c4116c137bce436383160be19db13434
+              expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_24h,15m)>100
+                and nodata(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_24h,10m)=0
+              name: 'Wazuh CRITICAL alerts increase {OSSEC-Wazuh:ossecwazuh.critical24h.pct_over_trend_24h.last()}% in 24 hours on {HOST.NAME}'
+              priority: DISASTER
+              description: |
+                Latest: {OSSEC-Wazuh:ossecwazuh.critical24h.last()}
+                Baseline (24h avg): {OSSEC-Wazuh:ossecwazuh.critical24h.avg(24h)}
+                Increase: {OSSEC-Wazuh:ossecwazuh.critical24h.pct_over_trend_24h.last()}%
+              manual_close: 'YES'
+        - uuid: e5adac28a3524f8494e90763154d9bda
+          name: 'Wazuh High Alerts Last 24h'
+          key: ossecwazuh.high24h
+          delay: 10m
+          triggers:
+            - uuid: aaf6494f4e914197a32cac6bb5259634
+              expression: last(/OSSEC-Wazuh/ossecwazuh.high24h)>=1
+              name: 'Wazuh {ITEM.LASTVALUE} High alerts last 24h'
+              priority: AVERAGE
+              manual_close: 'YES'
+        - uuid: 15757035e5734a1eb24851ddbd8b8f08
+          name: 'Ossec-Wazuh High Alerts Trend 1h'
+          type: CALCULATED
+          key: ossecwazuh.high24h.pct_over_trend_1h
+          delay: 5m
+          params: '100*( last(//ossecwazuh.high24h) / max(avg(//ossecwazuh.high24h,1h), 1) - 1 )'
+          triggers:
+            - uuid: b95519330f4640e985013218d7276b18
+              expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_1h,5m)>20
+                and nodata(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_1h,10m)=0
+              name: 'Wazuh HIGH alerts increase {OSSEC-Wazuh:ossecwazuh.high24h.pct_over_trend_1h.last()}% in 1 hour on {HOST.NAME}'
+              priority: AVERAGE
+              description: |
+                Latest: {OSSEC-Wazuh:ossecwazuh.high24h.last()}
+                Baseline (1h avg): {OSSEC-Wazuh:ossecwazuh.high24h.avg(1h)}
+                Increase: {OSSEC-Wazuh:ossecwazuh.high24h.pct_over_trend_1h.last()}%
+              manual_close: 'YES'
+        - uuid: 1b5173b784da44619a04b34246f6c2fd
+          name: 'Ossec-Wazuh High Alerts Trend 12h'
+          type: CALCULATED
+          key: ossecwazuh.high24h.pct_over_trend_12h
+          delay: 15m
+          params: '100*( last(//ossecwazuh.high24h) / max(avg(//ossecwazuh.high24h,12h), 1) - 1 )'
+          triggers:
+            - uuid: 81222a6be0444576a2a13da12b216fdd
+              expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_12h,10m)>50
+                and nodata(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_12h,10m)=0
+              name: 'Wazuh HIGH alerts increase {OSSEC-Wazuh:ossecwazuh.high24h.pct_over_trend_12h.last()}% in 12 hours on {HOST.NAME}'
+              priority: HIGH
+              description: |
+                Latest: {OSSEC-Wazuh:ossecwazuh.high24h.last()}
+                Baseline (12h avg): {OSSEC-Wazuh:ossecwazuh.high24h.avg(12h)}
+                Increase: {OSSEC-Wazuh:ossecwazuh.high24h.pct_over_trend_12h.last()}%
+              manual_close: 'YES'
+        - uuid: 49e08089b5f4437aa98dc5ea671017eb
+          name: 'Ossec-Wazuh High Alerts Trend 24h'
+          type: CALCULATED
+          key: ossecwazuh.high24h.pct_over_trend_24h
+          delay: 15m
+          params: '100*( last(//ossecwazuh.high24h) / max(avg(//ossecwazuh.high24h,24h), 1) - 1 )'
+          triggers:
+            - uuid: 74bfd73f2ac449d496b2ccc0bbd7ad11
+              expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_24h,15m)>100
+                and nodata(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_24h,10m)=0
+              name: 'Wazuh HIGH alerts increase {OSSEC-Wazuh:ossecwazuh.high24h.pct_over_trend_24h.last()}% in 24 hours on {HOST.NAME}'
+              priority: HIGH
+              description: |
+                Latest: {OSSEC-Wazuh:ossecwazuh.high24h.last()}
+                Baseline (24h avg): {OSSEC-Wazuh:ossecwazuh.high24h.avg(24h)}
+                Increase: {OSSEC-Wazuh:ossecwazuh.high24h.pct_over_trend_24h.last()}%
+              manual_close: 'YES'
+        - uuid: c54ffce9be354a65b044848e141d9fb5
+          name: ossecwazuh.low24h
+          key: ossecwazuh.low24h
+          delay: 30m
+          triggers:
+            - uuid: 0e1a94581be247cfbf930a4f3e682db2
+              expression: last(/OSSEC-Wazuh/ossecwazuh.low24h)>=1
+              name: 'Wazuh {ITEM.LASTVALUE} Low alerts last 24h'
+              priority: INFO
+              manual_close: 'YES'
+        - uuid: 67a58bdc869b48daa01b8f37042481ee
+          name: 'Ossec-Wazuh Low Alerts Trend 1h'
+          type: CALCULATED
+          key: ossecwazuh.low24h.pct_over_trend_1h
+          delay: 5m
+          params: '100*( last(//ossecwazuh.low24h) / max(avg(//ossecwazuh.low24h,1h), 1) - 1 )'
+          triggers:
+            - uuid: 2823063c73244a9e86007e5baea2bec0
+              expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_1h,5m)>20
+                and nodata(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_1h,10m)=0
+              name: 'Wazuh LOW alerts increase {OSSEC-Wazuh:ossecwazuh.low24h.pct_over_trend_1h.last()}% in 1 hour on {HOST.NAME}'
+              priority: AVERAGE
+              description: |
+                Latest: {OSSEC-Wazuh:ossecwazuh.low24h.last()}
+                Baseline (1h avg): {OSSEC-Wazuh:ossecwazuh.low24h.avg(1h)}
+                Increase: {OSSEC-Wazuh:ossecwazuh.low24h.pct_over_trend_1h.last()}%
+              manual_close: 'YES'
+        - uuid: 2635767ad2554c0db53445e1b7419eae
+          name: 'Ossec-Wazuh Low Alerts Trend 12h'
+          type: CALCULATED
+          key: ossecwazuh.low24h.pct_over_trend_12h
+          delay: 15m
+          params: '100*( last(//ossecwazuh.low24h) / max(avg(//ossecwazuh.low24h,12h), 1) - 1 )'
+          triggers:
+            - uuid: bdc2e414c3ac4d40b31231fd6d67ab12
+              expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_12h,10m)>50
+                and nodata(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_12h,10m)=0
+              name: 'Wazuh LOW alerts increase {OSSEC-Wazuh:ossecwazuh.low24h.pct_over_trend_12h.last()}% in 12 hours on {HOST.NAME}'
+              priority: HIGH
+              description: |
+                Latest: {OSSEC-Wazuh:ossecwazuh.low24h.last()}
+                Baseline (12h avg): {OSSEC-Wazuh:ossecwazuh.low24h.avg(12h)}
+                Increase: {OSSEC-Wazuh:ossecwazuh.low24h.pct_over_trend_12h.last()}%
+              manual_close: 'YES'
+        - uuid: 6d228fade2fc47b6836564834100abb5
+          name: 'Ossec-Wazuh Low Alerts Trend 24h'
+          type: CALCULATED
+          key: ossecwazuh.low24h.pct_over_trend_24h
+          delay: 15m
+          params: '100*( last(//ossecwazuh.low24h) / max(avg(//ossecwazuh.low24h,24h), 1) - 1 )'
+          triggers:
+            - uuid: 046bffd664f1466dade76c35b54029e4
+              expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_24h,15m)>100
+                and nodata(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_24h,10m)=0
+              name: 'Wazuh LOW alerts increase {OSSEC-Wazuh:ossecwazuh.low24h.pct_over_trend_24h.last()}% in 24 hours on {HOST.NAME}'
+              priority: HIGH
+              description: |
+                Latest: {OSSEC-Wazuh:ossecwazuh.low24h.last()}
+                Baseline (24h avg): {OSSEC-Wazuh:ossecwazuh.low24h.avg(24h)}
+                Increase: {OSSEC-Wazuh:ossecwazuh.low24h.pct_over_trend_24h.last()}%
+              manual_close: 'YES'
+        - uuid: 5dea8d5dbcff4d6c891f920eda319859
+          name: ossecwazuh.medium24h
+          key: ossecwazuh.medium24h
+          delay: 15m
+          triggers:
+            - uuid: ddac990e7b324325a8f9fd8620a4ed4f
+              expression: last(/OSSEC-Wazuh/ossecwazuh.medium24h)>=1
+              name: 'Wazuh {ITEM.LASTVALUE} Medium alerts last 24h'
+              priority: WARNING
+              manual_close: 'YES'
+        - uuid: 1d12a52e5a6d4d9b97fd4333bbe6dbd4
+          name: 'Ossec-Wazuh Medium Alerts Trend 1h'
+          type: CALCULATED
+          key: ossecwazuh.medium24h.pct_over_trend_1h
+          delay: 5m
+          params: '100*( last(//ossecwazuh.medium24h) / max(avg(//ossecwazuh.medium24h,1h), 1) - 1 )'
+          triggers:
+            - uuid: 766649971bf3419eaadc9b7820df6036
+              expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_1h,5m)>20
+                and nodata(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_1h,10m)=0
+              name: 'Wazuh MEDIUM alerts increase {OSSEC-Wazuh:ossecwazuh.medium24h.pct_over_trend_1h.last()}% in 1 hour on {HOST.NAME}'
+              priority: AVERAGE
+              description: |
+                Latest: {OSSEC-Wazuh:ossecwazuh.medium24h.last()}
+                Baseline (1h avg): {OSSEC-Wazuh:ossecwazuh.medium24h.avg(1h)}
+                Increase: {OSSEC-Wazuh:ossecwazuh.medium24h.pct_over_trend_1h.last()}%
+              manual_close: 'YES'
+        - uuid: b16a8f9ec0084a418f1f533df144577f
+          name: 'Ossec-Wazuh Medium Alerts Trend 12h'
+          type: CALCULATED
+          key: ossecwazuh.medium24h.pct_over_trend_12h
+          delay: 15m
+          params: '100*( last(//ossecwazuh.medium24h) / max(avg(//ossecwazuh.medium24h,12h), 1) - 1 )'
+          triggers:
+            - uuid: 1128d6cad0d5421b9f259190907d89a9
+              expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_12h,10m)>50
+                and nodata(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_12h,10m)=0
+              name: 'Wazuh MEDIUM alerts increase {OSSEC-Wazuh:ossecwazuh.medium24h.pct_over_trend_12h.last()}% in 12 hours on {HOST.NAME}'
+              priority: HIGH
+              description: |
+                Latest: {OSSEC-Wazuh:ossecwazuh.medium24h.last()}
+                Baseline (12h avg): {OSSEC-Wazuh:ossecwazuh.medium24h.avg(12h)}
+                Increase: {OSSEC-Wazuh:ossecwazuh.medium24h.pct_over_trend_12h.last()}%
+              manual_close: 'YES'
+        - uuid: f2482cffd59a42b2aaae812d56be6d05
+          name: 'Ossec-Wazuh Medium Alerts Trend 24h'
+          type: CALCULATED
+          key: ossecwazuh.medium24h.pct_over_trend_24h
+          delay: 15m
+          params: '100*( last(//ossecwazuh.medium24h) / max(avg(//ossecwazuh.medium24h,24h), 1) - 1 )'
+          triggers:
+            - uuid: 02f1c50cbe9b41ae90b60d3f0425a0c6
+              expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_24h,15m)>100
+                and nodata(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_24h,10m)=0
+              name: 'Wazuh MEDIUM alerts increase {OSSEC-Wazuh:ossecwazuh.medium24h.pct_over_trend_24h.last()}% in 24 hours on {HOST.NAME}'
+              priority: HIGH
+              description: |
+                Latest: {OSSEC-Wazuh:ossecwazuh.medium24h.last()}
+                Baseline (24h avg): {OSSEC-Wazuh:ossecwazuh.medium24h.avg(24h)}
+                Increase: {OSSEC-Wazuh:ossecwazuh.medium24h.pct_over_trend_24h.last()}%
+              manual_close: 'YES'
+        - uuid: d7b5f19fa2d74a29a94aaf84e78b5f9c
+          name: 'Manager Port Listening'
+          key: ossecwazuh.port.listening
+          delay: 30s
+          history: 90d
+          value_type: CHAR
+          trends: '0'
+          description: 'Status of UDP port 1514 on the OSSEC-Wazuh Server.  Is it listening or not.'
+          tags:
+            - tag: Application
+              value: OSSEC-Wazuh
+          triggers:
+            - uuid: db07503d7c34454aa918e0f36960fc14
+              expression: 'find(/OSSEC-Wazuh/ossecwazuh.port.listening,#1,"like","Not Listening")=1'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'find(/OSSEC-Wazuh/ossecwazuh.port.listening,#1,"like","OSSEC/Wazuh Listening")=1'
+              name: 'OSSEC-Wazuh Not Listening'
+              priority: DISASTER
+              description: 'UDP Port 1514 Not listening on Wazuh-OSSEC server.'
+              manual_close: 'YES'
+      discovery_rules:
+        - uuid: aca6ba7070f346e78f6f13eb70b98d29
+          name: 'OSSEC-Wazuh Agent Discovery'
+          key: 'ossecwazuh.manager[discovery,agent]'
+          delay: '3600'
+          lifetime_type: DELETE_IMMEDIATELY
+          lifetime: '0'
+          description: 'Discovery to enumerate the agents connected to a Wazuh-Ossec Manager Server.'
+          item_prototypes:
+            - uuid: 6090f9b73d1e4eaebac05dcaa2f7ac90
+              name: 'OSSEC-Wazuh Agent "{#NAME}" status'
+              key: 'ossecwazuh.agents[{#NAME}]'
+              delay: 30s
+              history: 90d
+              value_type: CHAR
+              trends: '0'
+              description: 'What is the status of the Agent, Active, Disconnected, or Never connected.'
+              valuemap:
+                name: 'OSSEC-Wazuh Agent Status'
+              tags:
+                - tag: Application
+                  value: OSSEC-Wazuh
+              trigger_prototypes:
+                - uuid: f6ff723e29974b4d88d3a20e28eda880
+                  expression: 'find(/OSSEC-Wazuh/ossecwazuh.agents[{#NAME}],,"like","Disconnected")=1'
+                  name: 'OSSEC-Wazuh Agent {#NAME} Disconnected'
+                  priority: HIGH
+                  description: '{#NAME} is Disconnected'
+                  manual_close: 'YES'
+                - uuid: 4b718a1d95d848ab9c3853171129deb0
+                  expression: 'find(/OSSEC-Wazuh/ossecwazuh.agents[{#NAME}],,"regexp","^Never.*")=1'
+                  name: 'OSSEC-Wazuh Agent {#NAME} never connected'
+                  priority: WARNING
+                  description: '{#NAME} agent has never connected to OSSEC/Wazuh'
+      valuemaps:
+        - uuid: 5ff4727a950f4bedb012b63d89845957
+          name: 'OSSEC-Wazuh Agent Status'
+          mappings:
+            - value: Active
+              newvalue: '0'
+            - value: Disconnected
+              newvalue: '1'
+            - value: 'Never connected'
+              newvalue: '2'
