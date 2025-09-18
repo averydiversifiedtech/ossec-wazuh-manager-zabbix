@@ -41,7 +41,7 @@ zabbix_export:
           triggers:
             - uuid: 83a72df2a4454a0f97dd7738cd931b94
               expression: 'min(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_1h,5m)>20 and nodata(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_1h,10m)=0'
-              name: 'Wazuh CRITICAL alerts increase {OSSEC-Wazuh:ossecwazuh.critical24h.pct_over_trend_1h.last()}% in 1 hour on {HOST.NAME}'
+              name: 'Wazuh CRITICAL alerts increase {ITEM.LASTVALUE}% in 1 hour on {HOST.NAME}'
               priority: AVERAGE
               description: |
                 Latest: {OSSEC-Wazuh:ossecwazuh.critical24h.last()}
@@ -58,7 +58,7 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_12h,10m)>50
                 and nodata(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_12h,10m)=0
-              name: 'Wazuh CRITICAL alerts increase {OSSEC-Wazuh:ossecwazuh.critical24h.pct_over_trend_12h.last()}% in 12 hours on {HOST.NAME}'
+              name: 'Wazuh CRITICAL alerts increase {ITEM.LASTVALUE}% in 12 hours on {HOST.NAME}'
               priority: HIGH
               description: |
                 Latest: {OSSEC-Wazuh:ossecwazuh.critical24h.last()}
@@ -75,7 +75,7 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_24h,15m)>100
                 and nodata(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_24h,10m)=0
-              name: 'Wazuh CRITICAL alerts increase {OSSEC-Wazuh:ossecwazuh.critical24h.pct_over_trend_24h.last()}% in 24 hours on {HOST.NAME}'
+              name: 'Wazuh CRITICAL alerts increase {ITEM.LASTVALUE}% in 24 hours on {HOST.NAME}'
               priority: DISASTER
               description: |
                 Latest: {OSSEC-Wazuh:ossecwazuh.critical24h.last()}
@@ -103,7 +103,7 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_1h,5m)>20
                 and nodata(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_1h,10m)=0
-              name: 'Wazuh HIGH alerts increase {OSSEC-Wazuh:ossecwazuh.high24h.pct_over_trend_1h.last()}% in 1 hour on {HOST.NAME}'
+              name: 'Wazuh HIGH alerts increase {ITEM.LASTVALUE}% in 1 hour on {HOST.NAME}'
               priority: AVERAGE
               description: |
                 Latest: {OSSEC-Wazuh:ossecwazuh.high24h.last()}
@@ -121,7 +121,7 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_12h,10m)>50
                 and nodata(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_12h,10m)=0
-              name: 'Wazuh HIGH alerts increase {OSSEC-Wazuh:ossecwazuh.high24h.pct_over_trend_12h.last()}% in 12 hours on {HOST.NAME}'
+              name: 'Wazuh HIGH alerts increase {ITEM.LASTVALUE}% in 12 hours on {HOST.NAME}'
               priority: HIGH
               description: |
                 Latest: {OSSEC-Wazuh:ossecwazuh.high24h.last()}
@@ -139,7 +139,7 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_24h,15m)>100
                 and nodata(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_24h,10m)=0
-              name: 'Wazuh HIGH alerts increase {OSSEC-Wazuh:ossecwazuh.high24h.pct_over_trend_24h.last()}% in 24 hours on {HOST.NAME}'
+              name: 'Wazuh HIGH alerts increase {ITEM.LASTVALUE}% in 24 hours on {HOST.NAME}'
               priority: HIGH
               description: |
                 Latest: {OSSEC-Wazuh:ossecwazuh.high24h.last()}
@@ -167,7 +167,7 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_1h,5m)>20
                 and nodata(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_1h,10m)=0
-              name: 'Wazuh LOW alerts increase {OSSEC-Wazuh:ossecwazuh.low24h.pct_over_trend_1h.last()}% in 1 hour on {HOST.NAME}'
+              name: 'Wazuh LOW alerts increase {ITEM.LASTVALUE}% in 1 hour on {HOST.NAME}'
               priority: AVERAGE
               description: |
                 Latest: {OSSEC-Wazuh:ossecwazuh.low24h.last()}
@@ -185,7 +185,7 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_12h,10m)>50
                 and nodata(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_12h,10m)=0
-              name: 'Wazuh LOW alerts increase {OSSEC-Wazuh:ossecwazuh.low24h.pct_over_trend_12h.last()}% in 12 hours on {HOST.NAME}'
+              name: 'Wazuh LOW alerts increase {ITEM.LASTVALUE}% in 12 hours on {HOST.NAME}'
               priority: HIGH
               description: |
                 Latest: {OSSEC-Wazuh:ossecwazuh.low24h.last()}
@@ -203,7 +203,7 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_24h,15m)>100
                 and nodata(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_24h,10m)=0
-              name: 'Wazuh LOW alerts increase {OSSEC-Wazuh:ossecwazuh.low24h.pct_over_trend_24h.last()}% in 24 hours on {HOST.NAME}'
+              name: 'Wazuh LOW alerts increase {ITEM.LASTVALUE}% in 24 hours on {HOST.NAME}'
               priority: HIGH
               description: |
                 Latest: {OSSEC-Wazuh:ossecwazuh.low24h.last()}
@@ -231,7 +231,7 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_1h,5m)>20
                 and nodata(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_1h,10m)=0
-              name: 'Wazuh MEDIUM alerts increase {OSSEC-Wazuh:ossecwazuh.medium24h.pct_over_trend_1h.last()}% in 1 hour on {HOST.NAME}'
+              name: 'Wazuh MEDIUM alerts increase {ITEM.LASTVALUE}% in 1 hour on {HOST.NAME}'
               priority: AVERAGE
               description: |
                 Latest: {OSSEC-Wazuh:ossecwazuh.medium24h.last()}
@@ -249,7 +249,7 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_12h,10m)>50
                 and nodata(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_12h,10m)=0
-              name: 'Wazuh MEDIUM alerts increase {OSSEC-Wazuh:ossecwazuh.medium24h.pct_over_trend_12h.last()}% in 12 hours on {HOST.NAME}'
+              name: 'Wazuh MEDIUM alerts increase {ITEM.LASTVALUE}% in 12 hours on {HOST.NAME}'
               priority: HIGH
               description: |
                 Latest: {OSSEC-Wazuh:ossecwazuh.medium24h.last()}
@@ -267,7 +267,7 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_24h,15m)>100
                 and nodata(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_24h,10m)=0
-              name: 'Wazuh MEDIUM alerts increase {OSSEC-Wazuh:ossecwazuh.medium24h.pct_over_trend_24h.last()}% in 24 hours on {HOST.NAME}'
+              name: 'Wazuh MEDIUM alerts increase  {ITEM.LASTVALUE}% in 24 hours on {HOST.NAME}'
               priority: HIGH
               description: |
                 Latest: {OSSEC-Wazuh:ossecwazuh.medium24h.last()}
