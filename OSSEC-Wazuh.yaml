@@ -28,7 +28,7 @@ zabbix_export:
           delay: 5m
           triggers:
             - uuid: a32915d7e33c4b13aeee6d065ef3f285
-              expression: abs(last(/OSSEC-Wazuh/ossecwazuh.critical24h))>=1
+              expression: last(/OSSEC-Wazuh/ossecwazuh.critical24h)>=1
               name: 'Wazuh {ITEM.LASTVALUE} Critical alerts last 24h'
               priority: HIGH
               manual_close: 'YES'
@@ -41,6 +41,8 @@ zabbix_export:
           triggers:
             - uuid: 83a72df2a4454a0f97dd7738cd931b94
               expression: 'min(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_1h,5m)>20 and nodata(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_1h,10m)=0'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'min(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_1h,5m)<20 and nodata(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_1h,10m)=0'
               name: 'Wazuh CRITICAL alerts increase {ITEM.LASTVALUE}% in 1 hour on {HOST.NAME}'
               priority: AVERAGE
               description: |
@@ -58,6 +60,10 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_12h,10m)>50
                 and nodata(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_12h,10m)=0
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_12h,10m)<50
+                and nodata(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_12h,10m)=0
               name: 'Wazuh CRITICAL alerts increase {ITEM.LASTVALUE}% in 12 hours on {HOST.NAME}'
               priority: HIGH
               description: |
@@ -74,6 +80,10 @@ zabbix_export:
             - uuid: c4116c137bce436383160be19db13434
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_24h,15m)>100
+                and nodata(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_24h,10m)=0
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_24h,15m)<100
                 and nodata(/OSSEC-Wazuh/ossecwazuh.critical24h.pct_over_trend_24h,10m)=0
               name: 'Wazuh CRITICAL alerts increase {ITEM.LASTVALUE}% in 24 hours on {HOST.NAME}'
               priority: DISASTER
@@ -103,6 +113,10 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_1h,5m)>20
                 and nodata(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_1h,10m)=0
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_1h,5m)<20
+                and nodata(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_1h,10m)=0
               name: 'Wazuh HIGH alerts increase {ITEM.LASTVALUE}% in 1 hour on {HOST.NAME}'
               priority: AVERAGE
               description: |
@@ -121,6 +135,10 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_12h,10m)>50
                 and nodata(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_12h,10m)=0
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_12h,10m)<50
+                and nodata(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_12h,10m)=0
               name: 'Wazuh HIGH alerts increase {ITEM.LASTVALUE}% in 12 hours on {HOST.NAME}'
               priority: HIGH
               description: |
@@ -138,6 +156,10 @@ zabbix_export:
             - uuid: 74bfd73f2ac449d496b2ccc0bbd7ad11
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_24h,15m)>100
+                and nodata(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_24h,10m)=0
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_24h,15m)<100
                 and nodata(/OSSEC-Wazuh/ossecwazuh.high24h.pct_over_trend_24h,10m)=0
               name: 'Wazuh HIGH alerts increase {ITEM.LASTVALUE}% in 24 hours on {HOST.NAME}'
               priority: HIGH
@@ -167,6 +189,10 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_1h,5m)>20
                 and nodata(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_1h,10m)=0
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_1h,5m)<20
+                and nodata(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_1h,10m)=0
               name: 'Wazuh LOW alerts increase {ITEM.LASTVALUE}% in 1 hour on {HOST.NAME}'
               priority: AVERAGE
               description: |
@@ -185,6 +211,10 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_12h,10m)>50
                 and nodata(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_12h,10m)=0
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_12h,10m)<50
+                and nodata(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_12h,10m)=0
               name: 'Wazuh LOW alerts increase {ITEM.LASTVALUE}% in 12 hours on {HOST.NAME}'
               priority: HIGH
               description: |
@@ -202,6 +232,10 @@ zabbix_export:
             - uuid: 046bffd664f1466dade76c35b54029e4
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_24h,15m)>100
+                and nodata(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_24h,10m)=0
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_24h,15m)<100
                 and nodata(/OSSEC-Wazuh/ossecwazuh.low24h.pct_over_trend_24h,10m)=0
               name: 'Wazuh LOW alerts increase {ITEM.LASTVALUE}% in 24 hours on {HOST.NAME}'
               priority: HIGH
@@ -231,6 +265,10 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_1h,5m)>20
                 and nodata(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_1h,10m)=0
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_1h,5m)<20
+                and nodata(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_1h,10m)=0
               name: 'Wazuh MEDIUM alerts increase {ITEM.LASTVALUE}% in 1 hour on {HOST.NAME}'
               priority: AVERAGE
               description: |
@@ -249,6 +287,10 @@ zabbix_export:
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_12h,10m)>50
                 and nodata(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_12h,10m)=0
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_12h,10m)<50
+                and nodata(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_12h,10m)=0
               name: 'Wazuh MEDIUM alerts increase {ITEM.LASTVALUE}% in 12 hours on {HOST.NAME}'
               priority: HIGH
               description: |
@@ -266,6 +308,10 @@ zabbix_export:
             - uuid: 02f1c50cbe9b41ae90b60d3f0425a0c6
               expression: |
                 min(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_24h,15m)>100
+                and nodata(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_24h,10m)=0
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: |
+                min(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_24h,15m)<100
                 and nodata(/OSSEC-Wazuh/ossecwazuh.medium24h.pct_over_trend_24h,10m)=0
               name: 'Wazuh MEDIUM alerts increase  {ITEM.LASTVALUE}% in 24 hours on {HOST.NAME}'
               priority: HIGH
