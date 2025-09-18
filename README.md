@@ -1,13 +1,15 @@
 # ossec-wazuh-manager-zabbix
 Zabbix Templates and scripts to monitor OSSEC or Wazuh Manager Intrusion Detection
 
-Just getting started with this template.  Import the xml template into zabbix.  The userparameters and script should be installed on your ossec system with zabbix-agent installed.  They go in /etc/zabbix/scripts and /etc/zabbix/zabbix_agentd.d
+Just getting started with this template.  Import the yaml template into zabbix (xml is deprecated).  The userparameters and scripts should be installed on your ossec system with zabbix-agent installed.  They go in /etc/zabbix/scripts and /etc/zabbix/zabbix_agentd.d
 
-So far the template has a discovery routine that is not yet scripted but as of the initial upload we do have a simple up or down trigger on the Manager.  If port 1514 udp is not being listened on the server it will trigger a disaster alert.
+So far the template has a discovery routine that should populate the host with a list of agents and notify on disconnect.  We do also have a simple up or down trigger on the Manager.  If port 1514 tcp is not being listened on the server it will trigger a disaster alert.
 
-Next up will be getting discovery of hosts and prototypes are already in place to track status of agents (active/disconnected/never connected) and alert accordingly.  At the moment the discovery script is written but we're troubleshooting the triggers at the moment.  Use at your own risk.
+New scripts have been added to pull the # of Critical/High,Medium and Low alerts over the last 24 hours as well as a calculated field to track the % change over 1, 12 and 24 hours.  Triggers are setup for the # of alerts as well as large percentage changes (20% in an hour, 50% in 12 hours, 100% or more in 24 hours.)
 
-Config should consist of placing the required files on the OSSEC/Wazuh Manager(Server) and importing the template into the Zabbix server (and apply it to your OSSEC/Wazuh host).  
+Triggers/clearing needs to be tested further.  Threshholds of course can be adjusted as you like.
+
+Config should consist of placing the required files on the OSSEC/Wazuh Manager(Server) and importing the template into the Zabbix server (and apply it to your OSSEC/Wazuh host).  You need to make sure that the scripts are owned by the zabbix user and are executable.  I have also done something that is not the best - a couple of the user parameters pull the script with a sudo.  So you will need to add zabbix to sudoers.  (Less than ideal - but you could give zabbix priviliges for JUST the couple tools used... /var/ossec/bin/agent_control, netstat)
 
 The template should create a value mapping with the following info:
 
@@ -18,8 +20,7 @@ Active = 0
 Disconnected = 1
 
 Never connected = 2
-
-Initial version we reversed the value mappings.  The script puts out text and we're converting to numbers.  Next revision we'll flip that so that the up/down status can be visible.  (We'll map Never Connected to 0, Disconnected to 1 and Active to 2.
+Tracking of connected/disconnected agents seems to work ok, but I've only had the template reimplemented for a day to test.
 
 
 
