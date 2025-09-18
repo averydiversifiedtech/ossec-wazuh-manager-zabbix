@@ -364,23 +364,31 @@ zabbix_export:
                   value: OSSEC-Wazuh
               trigger_prototypes:
                 - uuid: f6ff723e29974b4d88d3a20e28eda880
-                  expression: 'find(/OSSEC-Wazuh/ossecwazuh.agents[{#NAME}],,"like","Disconnected")=1'
+                  expression: 'last(/OSSEC-Wazuh/ossecwazuh.agents[{#NAME}],#3)=1'
                   name: 'OSSEC-Wazuh Agent {#NAME} Disconnected'
                   priority: HIGH
                   description: '{#NAME} is Disconnected'
                   manual_close: 'YES'
+                - uuid: 5a941e370b6c40c2842dee9b947134f9
+                  expression: 'last(/OSSEC-Wazuh/ossecwazuh.agents[{#NAME}],#3)<0'
+                  name: 'OSSEC-Wazuh Agent {#NAME} Error'
+                  priority: HIGH
+                  manual_close: 'YES'
                 - uuid: 4b718a1d95d848ab9c3853171129deb0
-                  expression: 'find(/OSSEC-Wazuh/ossecwazuh.agents[{#NAME}],,"regexp","^Never.*")=1'
+                  expression: 'last(/OSSEC-Wazuh/ossecwazuh.agents[{#NAME}],#3)=0'
                   name: 'OSSEC-Wazuh Agent {#NAME} never connected'
                   priority: WARNING
                   description: '{#NAME} agent has never connected to OSSEC/Wazuh'
+                  manual_close: 'YES'
       valuemaps:
         - uuid: 5ff4727a950f4bedb012b63d89845957
           name: 'OSSEC-Wazuh Agent Status'
           mappings:
-            - value: Active
-              newvalue: '0'
-            - value: Disconnected
-              newvalue: '1'
-            - value: 'Never connected'
-              newvalue: '2'
+            - value: '0'
+              newvalue: 'Never Connected'
+            - value: '1'
+              newvalue: Disconnected
+            - value: '2'
+              newvalue: Active
+            - value: '-1'
+              newvalue: Error
